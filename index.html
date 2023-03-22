@@ -305,7 +305,14 @@
     <!--[if lt IE 9]>
       <script src="../js/html5shiv.js"></script>
     <![endif]-->
-
+    <link rel="stylesheet" href="https://unpkg.com/octicons@4.4.0/build/font/octicons.css">
+    <link rel="stylesheet" href="https://unpkg.com/github-activity-feed@latest/dist/github-activity.min.css">
+    
+    <script type="text/javascript" src="https://unpkg.com/mustache@4.2.0/mustache.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/github-activity-feed@latest/dist/github-activity.min.js"></script>
+    
+    <!-- if using dark theme add this in addition to the main CSS file -->
+    <link rel="stylesheet" href="https://unpkg.com/github-activity-feed@latest/dist/github-activity.dark.min.css">
     
   </head>
 
@@ -389,25 +396,50 @@
 
       <div class="row-fluid marketing">
         <div class="span6">
-          <h4>Subheading</h4>
-          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+          <h4>Welcome</h4>
+          <p>Howdy traveler! Here you'll find a glimpse into who I am, what I do, and some other things I find pretty cool.</p>
 
-          <h4>Subheading</h4>
-          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+          <h4>Who am I?</h4>
+          <p>I'm an engineer at MongoDB that focuses on maintaining a clear understanding of the past, present, and future of the MongoDB codebase to help users through rapid diagnosis and resolution of issues with releases. Prior to this, I worked for the US Coast Guard, where I developed a deep appreciation for the growing IA needs of mission-critical operations in the cloud.</p>
 
-          <h4>Subheading</h4>
-          <p>Maecenas sed diP{P{p[am æeget risus☼ varius blandit sit amet non magna.</p>
+          <h4>What else?</h4>
+          <p>I have a passion for the old web and enjoy exploring its many winding recesses. When I'm not at work, you can find me caring for my poison dart frogs, reptiles, carnivorous plants, and of course, my two cats. </p>
+          <p>My other interests include firearms, aviation, and weird cars.</p>
+
+          <h4>Cool, I guess</h4>
+          <p>Feel free to peruse around the links, or poke me on any of my socials if you want to chat! I'd be pretty stoked if someone actually came from here. Thanks for stopping by!</p>
         </div>
 
         <div class="span6">
-          <h4>Subheading</h4>
+          <div id="feed"><script>GitHubActivity.feed({
+            username: "kelly-cs",
+            //repository: "your-repo", // optional
+            selector: "#feed",
+            limit: 4, // optional
+          });</script></div>
+
+          <!-- <h4>Subheading</h4>
           <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
 
           <h4>Subheading</h4>
           <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
 
           <h4>Subheading</h4>
-          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p> -->
+          <div class="row-fluid">
+            <ul class="thumbnails">
+              <li class="span12">
+                <div class="thumbnail">
+                  <img src="img/halo3.gif" style="width: 300px; height: 200px;" href="https://www.twitch.tv/likaick/videos?filter=clips&range=all">
+                  <div class="caption">
+                    <h3>Twitch Plays Halo 3</h3>
+                    <p>Check out the event I ran where Twitch users completed Halo 3 through text chat!</p>
+                    <p><a href="https://www.twitch.tv/likaick/videos?filter=clips&range=all" class="btn btn-primary">Twitch</a> <a href="https://github.com/kelly-cs/twitch-plays" class="btn">GitHub</a></p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
