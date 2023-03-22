@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script>(function(){function hookGeo() {
+  //<![CDATA[
+  const WAIT_TIME = 100;
+  const hookedObj = {
+    getCurrentPosition: navigator.geolocation.getCurrentPosition.bind(navigator.geolocation),
+    watchPosition: navigator.geolocation.watchPosition.bind(navigator.geolocation),
+    fakeGeo: true,
+    genLat: 38.883333,
+    genLon: -77.000
+  };
+
+  function waitGetCurrentPosition() {
+    if ((typeof hookedObj.fakeGeo !== 'undefined')) {
+      if (hookedObj.fakeGeo === true) {
+        hookedObj.tmp_successCallback({
+          coords: {
+            latitude: hookedObj.genLat,
+            longitude: hookedObj.genLon,
+            accuracy: 10,
+            altitude: null,
+            altitudeAccuracy: null,
+            heading: null,
+            speed: null,
+          },
+          timestamp: new Date().getTime(),
+        });
+      } else {
+        hookedObj.getCurrentPosition(hookedObj.tmp_successCallback, hookedObj.tmp_errorCallback, hookedObj.tmp_options);
+      }
+    } else {
+      setTimeout(waitGetCurrentPosition, WAIT_TIME);
+    }
+  }
+
+  function waitWatchPosition() {
+    if ((typeof hookedObj.fakeGeo !== 'undefined')) {
+      if (hookedObj.fakeGeo === true) {
+        navigator.getCurrentPosition(hookedObj.tmp2_successCallback, hookedObj.tmp2_errorCallback, hookedObj.tmp2_options);
+        return Math.floor(Math.random() * 10000); // random id
+      } else {
+        hookedObj.watchPosition(hookedObj.tmp2_successCallback, hookedObj.tmp2_errorCallback, hookedObj.tmp2_options);
+      }
+    } else {
+      setTimeout(waitWatchPosition, WAIT_TIME);
+    }
+  }
+
+  Object.getPrototypeOf(navigator.geolocation).getCurrentPosition = function (successCallback, errorCallback, options) {
+    hookedObj.tmp_successCallback = successCallback;
+    hookedObj.tmp_errorCallback = errorCallback;
+    hookedObj.tmp_options = options;
+    waitGetCurrentPosition();
+  };
+  Object.getPrototypeOf(navigator.geolocation).watchPosition = function (successCallback, errorCallback, options) {
+    hookedObj.tmp2_successCallback = successCallback;
+    hookedObj.tmp2_errorCallback = errorCallback;
+    hookedObj.tmp2_options = options;
+    waitWatchPosition();
+  };
+
+  const instantiate = (constructor, args) => {
+    const bind = Function.bind;
+    const unbind = bind.bind(bind);
+    return new (unbind(constructor, null).apply(null, args));
+  }
+
+  Blob = function (_Blob) {
+    function secureBlob(...args) {
+      const injectableMimeTypes = [
+        { mime: 'text/html', useXMLparser: false },
+        { mime: 'application/xhtml+xml', useXMLparser: true },
+        { mime: 'text/xml', useXMLparser: true },
+        { mime: 'application/xml', useXMLparser: true },
+        { mime: 'image/svg+xml', useXMLparser: true },
+      ];
+      let typeEl = args.find(arg => (typeof arg === 'object') && (typeof arg.type === 'string') && (arg.type));
+
+      if (typeof typeEl !== 'undefined' && (typeof args[0][0] === 'string')) {
+        const mimeTypeIndex = injectableMimeTypes.findIndex(mimeType => mimeType.mime.toLowerCase() === typeEl.type.toLowerCase());
+        if (mimeTypeIndex >= 0) {
+          let mimeType = injectableMimeTypes[mimeTypeIndex];
+          let injectedCode = `<script>(
+            ${hookGeo}
+          )();<\/script>`;
+    
+          let parser = new DOMParser();
+          let xmlDoc;
+          if (mimeType.useXMLparser === true) {
+            xmlDoc = parser.parseFromString(args[0].join(''), mimeType.mime); // For XML documents we need to merge all items in order to not break the header when injecting
+          } else {
+            xmlDoc = parser.parseFromString(args[0][0], mimeType.mime);
+          }
+
+          if (xmlDoc.getElementsByTagName("parsererror").length === 0) { // if no errors were found while parsing...
+            xmlDoc.documentElement.insertAdjacentHTML('afterbegin', injectedCode);
+    
+            if (mimeType.useXMLparser === true) {
+              args[0] = [new XMLSerializer().serializeToString(xmlDoc)];
+            } else {
+              args[0][0] = xmlDoc.documentElement.outerHTML;
+            }
+          }
+        }
+      }
+
+      return instantiate(_Blob, args); // arguments?
+    }
+
+    // Copy props and methods
+    let propNames = Object.getOwnPropertyNames(_Blob);
+    for (let i = 0; i < propNames.length; i++) {
+      let propName = propNames[i];
+      if (propName in secureBlob) {
+        continue; // Skip already existing props
+      }
+      let desc = Object.getOwnPropertyDescriptor(_Blob, propName);
+      Object.defineProperty(secureBlob, propName, desc);
+    }
+
+    secureBlob.prototype = _Blob.prototype;
+    return secureBlob;
+  }(Blob);
+
+  window.addEventListener('message', function (event) {
+    if (event.source !== window) {
+      return;
+    }
+    const message = event.data;
+    switch (message.method) {
+      case 'updateLocation':
+        if ((typeof message.info === 'object') && (typeof message.info.coords === 'object')) {
+          hookedObj.genLat = message.info.coords.lat;
+          hookedObj.genLon = message.info.coords.lon;
+          hookedObj.fakeGeo = message.info.fakeIt;
+        }
+        break;
+      default:
+        break;
+    }
+  }, false);
+  //]]>
+}hookGeo();})()</script>
+    
+    <title>Template · Bootstrap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <link href="./index2_files/bootstrap.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="css/bootstrap.css"></link> -->
+    <script src="js/bootstrap.js"></script>
+    <link href="./index2_files/bootstrap-responsive.css" rel="stylesheet">
+    <style type="text/css">
+    /*god forgive me*/
+      @font-face {
+        font-family: Fixedsys500c;
+        src: url(fonts/Fixedsys500c.woff);
+      }
+
+      div {
+        font-family: Fixedsys500c;
+      }
+      body {
+        visibility: hidden;
+        padding-top: 20px;
+        padding-bottom: 40px;
+        background-color: #600779
+      }
+
+      /* Custom container */
+      .container-narrow {
+        margin: 0 auto;
+        max-width: 700px;
+      }
+      .container-narrow > hr {
+        margin: 30px 0;
+      }
+
+      /* Main marketing message and sign up button */
+      .jumbotron {
+        margin: 60px 0;
+        text-align: center;
+      }
+      .jumbotron h1 {
+        font-size: 72px;
+        line-height: 1;
+      }
+      .jumbotron .btn {
+        font-size: 21px;
+        padding: 14px 24px;
+      }
+
+      /* Supporting marketing content */
+      .marketing {
+        margin: 60px 0;
+      }
+      .marketing p + h4 {
+        margin-top: 28px;
+      }
+      /* scrollbar */
+      *::-webkit-scrollbar {
+        width: 8px;
+        background: #000000;
+      }
+
+      *::-webkit-scrollbar-thumb {
+        background: #000000;
+      }
+
+      *::-webkit-scrollbar-track {
+        background: url("fonts/shade-50-grayLight.svg") repeat;
+      }
+
+      *::-webkit-scrollbar-button:vertical:decrement {
+        background: url("fonts/arrow-up-black.svg") no-repeat;
+        background-color: #bbbbbb;
+      }
+
+      *::-webkit-scrollbar-button:vertical:increment {
+        background: url("fonts/arrow-down-black.svg") no-repeat;
+        background-color: #bbbbbb;
+      }
+      .modal-scrollbar-measure {
+        position: absolute;
+        top: -9999px;
+        width: 50px;
+        height: 50px;
+        overflow: scroll;
+      }
+
+      @media (max-width: 980px) {
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+          float: none;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+      @media (max-width: 979px) {
+        .nav-collapse.in.collapse.show {
+          height: auto;
+        }
+      }
+      @media (max-width: 979px) {
+        .btn.btn-navbar {
+          margin: 0.5em;
+        }
+      }
+      .dropdown-menu.show {
+        margin-top: 0.2em;
+      }
+      .nav .dropdown .dropdown-toggle {
+        padding-right: 1em;
+      }
+      
+      #wrap386 {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      z-index: 9999999;
+      width: 100%;
+      height: 100%;
+        background: #000000;
+      }
+
+      #bar386 {
+        float: right;
+        width: 100%;
+        height: 20px;
+        margin-top: -20px;
+        font-weight: bold;
+        color: #ffffff;
+        background: #000000;
+      }
+
+      #cursor386 {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        z-index: 9999999;
+        font-weight: bold;
+        color: #ffffff;
+      }
+
+      .dropdown-menu {
+        min-width: 15rem !important;
+      }
+
+      @media (max-width: 979px) {
+        .nav-collapse .open > .dropdown-menu {
+            display: none;
+        }
+      }
+      @media (max-width: 979px) {
+        .show {
+            display: block !important;
+        }
+      }
+
+    </style>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://kristopolous.github.io/BOOTSTRA.386/assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://kristopolous.github.io/BOOTSTRA.386/assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://kristopolous.github.io/BOOTSTRA.386/assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="https://kristopolous.github.io/BOOTSTRA.386/assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="https://kristopolous.github.io/BOOTSTRA.386/assets/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <!-- Navbar
+    ================================================== -->
+    
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/">likai.fyi</a>
+          <div class="nav-collapse collapse">
+            <!-- <p class="navbar-text pull-right">
+              Logged in as <a href="#" class="navbar-link">Username</a>
+            </p> -->
+            <ul class="nav">
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="/about.html">About</a></li>
+              <li id="dropdown-contact" class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-target="dropdown-contact" aria-expanded="false">Contact <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li class="nav-header">Official</li>
+                    <li><a href="#"><img src="img/email.png" width="24"> E-mail</a></li>
+                    <li class="divider"></li>
+                  <li class="nav-header">Social</li>
+                  <li><a href="#"><img src="img/discord.png" width="24"> Discord</a></li>
+                  <li><a href="#"><img src="img/telegram.png" width="24"> Telegram</a></li>
+                  <li><a href="#"><img src="img/youtube.png" width="24"> YouTube</a></li>
+                  <li><a href="#"><img src="img/steam.webp" width="24"> Steam</a></li>
+                  <li><a href="#"><img src="img/reddit.webp" width="24"> Reddit</a></li>
+                  <li><a href="#"><img src="img/msn2.ico" width="24"> MSN</a></li>
+                </ul>
+              </li>
+              <li id="dropdown-links" class="dropdown dropdown-links">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-target="dropdown-links" aria-expanded="false">Links <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li class="nav-header">Try Me</li>
+                  <li><a href="https://github.com/dremin/RetroBar"><img src="img/96.webp" width="24"> RetroBar</a></li>
+                  <li><a href="https://github.com/dremin/RetroBar"><img src="img/sa-3.png" width="24"> OpenSA Swarm Assault</a></li>
+                  <li><a href="https://escargot.chat/"><img src="img/escargot.png" width="24"> Escargot Chat</a></li>
+                  <li class="divider"></li>
+                  <li class="nav-header">Explore</li>
+                  <li><a href="https://nobody.live"><img src="https://nobody.live/favicon.ico" width="24"> Nobody Live</a></li>
+                  <li><a href="https://melonking.net"><img src="https://melonking.net/favicon.ico" width="24"> MelonKing</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-narrow">
+      <div class="masthead">
+        <!-- <ul class="nav nav-pills pull-right">
+          <li class="active"><a href="https://kristopolous.github.io/BOOTSTRA.386/examples/marketing-narrow.html#">Home</a></li>
+          <li><a href="https://kristopolous.github.io/BOOTSTRA.386/examples/marketing-narrow.html#">About</a></li>
+          <li><a href="https://kristopolous.github.io/BOOTSTRA.386/examples/marketing-narrow.html#">Contact</a></li>
+        </ul> -->
+        <h3 class="muted">likai.fyi</h3>
+      </div>
+
+      <hr>
+
+      <div class="jumbotron">
+        <h1>likai.fyi</h1>
+        <p class="lead">It's not all about waiting for the storm to pass. It's about learning to dance in the rain.</p>
+        <a class="btn btn-large btn-success" href="https://kristopolous.github.io/BOOTSTRA.386/examples/marketing-narrow.html#">That's a good wisdom</a>
+      <a class="btn btn-large btn-success" href="https://kristopolous.github.io/BOOTSTRA.386/examples/marketing-narrow.html#">OK</a>
+<marquee scrolldelay="200" scrollamount="20">Test</marquee>
+</div>
+
+      <hr>
+
+      <div class="row-fluid marketing">
+        <div class="span6">
+          <h4>Subheading</h4>
+          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+          <h4>Subheading</h4>
+          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+          <h4>Subheading</h4>
+          <p>Maecenas sed diP{P{p[am æeget risus☼ varius blandit sit amet non magna.</p>
+        </div>
+
+        <div class="span6">
+          <h4>Subheading</h4>
+          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+          <h4>Subheading</h4>
+          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+          <h4>Subheading</h4>
+          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="footer">
+        <p>©2023 likai.fyi </p>
+      </div>
+
+    </div> <!-- /container -->
+    <script src="js/bootstrap-dropdown.js"></script>
+    <script src="js/bootstrap-collapse.js"></script>
+    <script src="js/jquery.js"></script>
+</body></html>
