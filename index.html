@@ -146,7 +146,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    
+    <script src="js/helper.js"></script>
     <script src="https://code.jquery.com/jquery.js"></script>
     <link href="./css/bootstrap.css" rel="stylesheet">
     <!-- <link rel="stylesheet" href="css/bootstrap.css"></link> -->
@@ -332,38 +332,38 @@
           <a class="brand" href="/">likai.fyi</a>
           <div class="nav-collapse collapse">
             <!-- <p class="navbar-text pull-right">
-              Logged in as <a href="#" class="navbar-link">Username</a>
+              Logged in as <a target="_blank" href="#" class="navbar-link">Username</a>
             </p> -->
             <ul class="nav">
-              <li class="active"><a href="/">Home</a></li>
-              <li><a href="/about.html">About</a></li>
+              <li class="active"><a target="_blank" href="/">Home</a></li>
+              <li><a target="_blank" href="/about.html">About</a></li>
               <li id="dropdown-contact" class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-target="dropdown-contact" aria-expanded="false">Contact <b class="caret"></b></a>
+                <a target="_blank" href="#" class="dropdown-toggle" data-toggle="dropdown" data-target="dropdown-contact" aria-expanded="false">Contact <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li class="nav-header">Official</li>
-                    <li><a href="#"><img src="img/email.png" width="24"> E-mail</a></li>
+                    <li><a target="_blank" href="mailto:contact@likai.fyi"><img src="img/email.png" width="24"> E-mail</a></li>
                     <li class="divider"></li>
                   <li class="nav-header">Social</li>
-                  <li><a href="#"><img src="img/discord.png" width="24"> Discord</a></li>
-                  <li><a href="#"><img src="img/telegram.png" width="24"> Telegram</a></li>
-                  <li><a href="#"><img src="img/youtube.png" width="24"> YouTube</a></li>
-                  <li><a href="#"><img src="img/steam.webp" width="24"> Steam</a></li>
-                  <li><a href="#"><img src="img/reddit.webp" width="24"> Reddit</a></li>
-                  <li><a href="#"><img src="img/msn2.ico" width="24"> MSN</a></li>
+                  <li><a target="_blank" href="https://discordapp.com/users/284126954918248449"><img src="img/discord.png" width="24"> Discord</a></li>
+                  <li><a target="_blank" href="https://t.me/likai"><img src="img/telegram.png" width="24"> Telegram</a></li>
+                  <li><a target="_blank" href="https://www.youtube.com/channel/UCPw2zb2D8Jqv3jzbpzSNA3Q"><img src="img/youtube.png" width="24"> YouTube</a></li>
+                  <li><a target="_blank" href="https://steamcommunity.com/id/likai/"><img src="img/steam.webp" width="24"> Steam</a></li>
+                  <li><a target="_blank" href="https://www.reddit.com/user/Likai31197"><img src="img/reddit.webp" width="24"> Reddit</a></li>
+                  <li><a href="#" onclick="copyEscargot()"> <img src="img/msn2.ico" width="24"> MSN</a></li>
                 </ul>
               </li>
               <li id="dropdown-links" class="dropdown dropdown-links">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-target="dropdown-links" aria-expanded="false">Links <b class="caret"></b></a>
+                <a target="_blank" href="#" class="dropdown-toggle" data-toggle="dropdown" data-target="dropdown-links" aria-expanded="false">Links <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li class="nav-header">Try Me</li>
-                  <li><a href="https://github.com/dremin/RetroBar"><img src="img/96.webp" width="24"> RetroBar</a></li>
-                  <li><a href="https://github.com/dremin/RetroBar"><img src="img/sa-3.png" width="24"> OpenSA Swarm Assault</a></li>
-                  <li><a href="https://escargot.chat/"><img src="img/escargot.png" width="24"> Escargot Chat</a></li>
-                  <li><a href="https://kristopolous.github.io/BOOTSTRA.386"><img src="img/terminal.gif" width="24"> BOOTSTRA.386</a></li>
+                  <li><a target="_blank" href="https://github.com/dremin/RetroBar"><img src="img/96.webp" width="24"> RetroBar</a></li>
+                  <li><a target="_blank" href="https://github.com/dremin/RetroBar"><img src="img/sa-3.png" width="24"> OpenSA Swarm Assault</a></li>
+                  <li><a target="_blank" href="https://escargot.chat/"><img src="img/escargot.png" width="24"> Escargot Chat</a></li>
+                  <li><a target="_blank" href="https://kristopolous.github.io/BOOTSTRA.386"><img src="img/terminal.gif" width="24"> BOOTSTRA.386</a></li>
                   <li class="divider"></li>
                   <li class="nav-header">Explore</li>
-                  <li><a href="https://nobody.live"><img src="https://nobody.live/favicon.ico" width="24"> Nobody Live</a></li>
-                  <li><a href="https://melonking.net"><img src="https://melonking.net/favicon.ico" width="24"> MelonKing</a></li>
+                  <li><a target="_blank" href="https://nobody.live"><img src="https://nobody.live/favicon.ico" width="24"> Nobody Live</a></li>
+                  <li><a target="_blank" href="https://melonking.net"><img src="https://melonking.net/favicon.ico" width="24"> MelonKing</a></li>
                 </ul>
               </li>
             </ul>
@@ -375,9 +375,9 @@
     <div class="container-narrow">
       <div class="masthead">
         <!-- <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">wip</a></li>
-          <li><a href="#">wip</a></li>
+          <li class="active"><a target="_blank" href="#">Home</a></li>
+          <li><a target="_blank" href="#">wip</a></li>
+          <li><a target="_blank" href="#">wip</a></li>
         </ul> -->
         <h3 class="muted">likai.fyi</h3>
       </div>
@@ -387,7 +387,7 @@
       <div class="jumbotron">
         <h1>likai.fyi</h1>
         <p class="lead">It's not all about waiting for the storm to pass. It's about learning to dance in the rain.</p>
-        <a class="btn btn-large btn-success" href="">That's a good wisdom</a>
+        <a class="btn btn-large btn-success" href="#">That's a good wisdom</a>
       <a class="btn btn-large btn-success" href="#">OK</a>
 <marquee scrolldelay="200" scrollamount="20">Test</marquee>
 </div>
@@ -434,7 +434,7 @@
                   <div class="caption">
                     <h3>Twitch Plays Halo 3</h3>
                     <p>Check out the event I ran where Twitch users completed Halo 3 through text chat!</p>
-                    <p><a href="https://www.twitch.tv/likaick/videos?filter=clips&range=all" class="btn btn-primary">Twitch</a> <a href="https://github.com/kelly-cs/twitch-plays" class="btn">GitHub</a></p>
+                    <p><a target="_blank" href="https://www.twitch.tv/likaick/videos?filter=clips&range=all" class="btn btn-primary">Twitch</a> <a target="_blank" href="https://github.com/kelly-cs/twitch-plays" class="btn">GitHub</a></p>
                   </div>
                 </div>
               </li>
